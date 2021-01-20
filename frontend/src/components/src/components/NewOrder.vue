@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
+
       <div class="col-md-8 order-md-1">
-        <h3>Edit order</h3>
+        <h3>New order</h3>
 
         <notifications group="alertSuccess" position="top right" max="3" classes="alert alert-success"/>
         <notifications group="alertDanger" position="top right" max="3" classes="alert alert-danger"/>
@@ -17,9 +18,6 @@
                   <option>{{contractor.nip}}</option>
                 </option>
               </select>
-              <div class="invalid-feedback">
-                Please choose a contractor.
-              </div>
             </div>
 
             <div class="col-md-6 mb-3">
@@ -30,9 +28,6 @@
                   <option>{{status.status}}</option>
                 </option>
               </select>
-              <div class="invalid-feedback">
-                Please choose a status.
-              </div>
             </div>
           </div>
 
@@ -82,7 +77,6 @@
             <div class="col-md-6 mb-3">
               <label for="status">implementation date</label>
               <date-picker v-model="implementationDate" @dp-change="changeImplementationDate(implementationDate)" :config="{format: 'DD-MM-YYYY hh:mm'}"></date-picker>
-
             </div>
             <div class="col-md-6 mb-3">
               <label for="status">Date of placing the order</label>
@@ -117,7 +111,7 @@
                 </td>
 
                 <td>
-                  <input type="number" min="1" oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null" class="form-control" id="quantityid" placeholder="" v-model="row.quantity">
+                  <input type="number" min="1" oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null" class="form-control" id="quantityid" placeholder="" v-model="row.quantity" required>
                 </td>
 
                 <td class="align-middle">
@@ -164,7 +158,7 @@
                 </td>
 
                 <td>
-                  <input type="number" min="1" oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null" class="form-control" id="quantityid" placeholder="" v-model="row.quantity">
+                  <input type="number" min="1" oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : null" class="form-control" id="quantityid" placeholder="" v-model="row.quantity" required>
                 </td>
 
                 <td class="align-middle">
@@ -189,16 +183,9 @@
           </table>
         </form>
 
-        <div class="row float-right">
-          <div class="col-md-6 mb-3">
-            <button @click=updateOrder() class="btn btn-primary">Save</button>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <button @click=cancelOrder() class="btn btn btn-danger">Cancel</button>
-          </div>
+        <div class="mb-5 float-right">
+          <button @click=postOrder() class="btn btn-primary">Save the order</button>
         </div>
-
       </div>
     </div>
 
@@ -220,10 +207,11 @@
 
   // Import date picker css
   import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+  import moment from 'moment';
   import axios from 'axios';
 
   export default {
-    name: 'EditOrder',
+    name: 'NewOrder',
     data() {
       return {
         validation: 0,
@@ -237,8 +225,8 @@
             "product_id": null
           }
         ],
-        implementationDate: new Date(),
-        dateOfPlacingTheOrder: new Date(),
+        implementationDate: moment().format('DD-MM-YYYY hh:mm'),
+        dateOfPlacingTheOrder: moment().format('DD-MM-YYYY hh:mm'),
         configs: {
           basic: {
             // https://momentjs.com/docs/#/displaying/format/
@@ -250,19 +238,19 @@
         },
         contractors: [
           {
-            "name": "Johnny",
-            "nip": "3829473912",
-            "address": "3528  Hampton Meadows"
+            "name": "Janek",
+            "nip": "323243253",
+            "address": "Szwoleżerów 4/13"
           },
           {
-            "name": "Joe",
-            "nip": "3927438104",
-            "address": "4780  Meadow Lane"
+            "name": "Marek",
+            "nip": "30323",
+            "address": "dsds 4/13"
           },
           {
-            "name": "Alice",
-            "nip": "9378194273",
-            "address": "1708  Henry Ford Avenue"
+            "name": "Madsadsarek",
+            "nip": "3033222223",
+            "address": ":DA+W_ 4/13"
           }
         ],
         statuses: [
@@ -275,19 +263,19 @@
         ],
         products: [
           {
-            "name": "Banana",
+            "name": "Coś",
             "price": "1.93",
-            "product_id": 0
+            "product_id": 13
           },
           {
-            "name": "Apple",
+            "name": "Ptasie mleczko",
             "price": "4.43",
-            "product_id": 1
+            "product_id": 21
           },
           {
-            "name": "Carrot",
+            "name": "mleczko",
             "price": "3",
-            "product_id": 2
+            "product_id": 221
           }
         ]
       };
@@ -296,52 +284,8 @@
       datePicker
     },
     created: function() {
-
-      //get orderId
-      var id = this.getOrderId()
-
-      //update data
-      this.updateOrderData(id)
-
     },
     methods: {
-      updateOrderData(id) {
-        axios
-          .get('http://127.0.0.1:8000/api/orders/' + id)
-          .then(res => {
-
-            var response = res.data
-
-            //get basic info
-            this.contractor = { "name": response.contractor_id.name.toString(), "nip": response.contractor_id.nip.toString(), "address": response.contractor_id.address.toString() }
-            this.implementationDate = response.implementation_date
-            this.dateOfPlacingTheOrder = response.data_of_placing_the_order
-            this.status = {"status": response.status.toString()}
-
-            //iterate through products
-            var products = []
-            var i
-
-            for (i = 0; i < response.products.length; i++) {
-              var product = {
-                "name": response.products[i].name,
-                "quantity": response.products[i].quantity,
-                "price": response.products[i].price,
-                "product_id": response.products[i].product_id,
-                "id": {
-                  "name": response.products[i].name,
-                  "price": response.products[i].price,
-                  "product_id": response.products[i].product_id
-                }
-              }
-              products.push(product)
-            }
-
-            //update products
-            this.rows = products
-
-          });
-      },
       addRow() {
         this.rows.push({
           "name": null,
@@ -364,7 +308,7 @@
         this.rows[index].price = JSON.parse(JSON.stringify(product.price))
         this.rows[index].product_id = JSON.parse(JSON.stringify(product.product_id))
       },
-      updateOrder() {
+      postOrder() {
 
         this.validation = 1
 
@@ -381,33 +325,37 @@
           products.push(product)
         }
 
-        var id = this.getOrderId()
-
         axios
-        .patch('http://127.0.0.1:8000/api/orders/' + id + '/', {
+        .post('http://127.0.0.1:8000/api/orders/', {
             'contractor_id': {
               "name": this.contractor.name,
               "nip": this.contractor.nip,
               "address": this.contractor.address
             },
-            "number": 21,
+            "number": 23,
             "implementation_date": this.implementationDate,
             "data_of_placing_the_order": this.dateOfPlacingTheOrder,
             "status": this.status.status,
             "products": products
         })
         .then(res => {
+          var data = res.data
           console.log(res)
-          this.updateOrderData(id)
           this.$notify({
             group: 'alertSuccess',
             type: 'success',
             title: 'New order.',
             text: 'New order has been added succesfully.'
           });
+
+          //store order id
+          localStorage.setItem('orderId', JSON.parse(data.id))
+
+          //move to the edit view
+          window.location = 'http://127.0.0.1:8081/editorder/'
         })
         .catch(error => {
-          console.log(error.response.data)
+          console.log(error.response.data);
           this.$notify({
             group: 'alertDanger',
             type: 'error',
@@ -415,13 +363,6 @@
             text: 'Adding new order failed.'
           });
         })
-      },
-      getOrderId() {
-        return localStorage.getItem('orderId')
-      },
-      cancelOrder() {
-        //move to the edit view
-        window.location = 'http://127.0.0.1:8081/'
       }
     }
   }

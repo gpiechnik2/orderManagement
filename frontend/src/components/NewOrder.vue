@@ -238,19 +238,19 @@
         },
         contractors: [
           {
-            "name": "Janek",
-            "nip": "323243253",
-            "address": "Szwoleżerów 4/13"
+            "name": "Johnny",
+            "nip": "3829473912",
+            "address": "3528  Hampton Meadows"
           },
           {
-            "name": "Marek",
-            "nip": "30323",
-            "address": "dsds 4/13"
+            "name": "Joe",
+            "nip": "3927438104",
+            "address": "4780  Meadow Lane"
           },
           {
-            "name": "Madsadsarek",
-            "nip": "3033222223",
-            "address": ":DA+W_ 4/13"
+            "name": "Alice",
+            "nip": "9378194273",
+            "address": "1708  Henry Ford Avenue"
           }
         ],
         statuses: [
@@ -263,19 +263,19 @@
         ],
         products: [
           {
-            "name": "Coś",
+            "name": "Banana",
             "price": "1.93",
-            "product_id": 13
+            "product_id": 0
           },
           {
-            "name": "Ptasie mleczko",
+            "name": "Apple",
             "price": "4.43",
-            "product_id": 21
+            "product_id": 1
           },
           {
-            "name": "mleczko",
+            "name": "Carrot",
             "price": "3",
-            "product_id": 221
+            "product_id": 2
           }
         ]
       };
