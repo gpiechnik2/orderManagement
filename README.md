@@ -11,7 +11,7 @@ docker-compose build
 
 **Migrate**
 ```
-docker-compose run django python3 manage.py migrate --run-syncdb
+docker-compose run django python3 manage.py migrate
 ```
 
 **Make migrations**
@@ -38,5 +38,4 @@ For example, to install a Javascript dependency and save that information to `pa
 If you want to be on a shell for one of the Docker services, you can do something like:
 `docker-compose run --rm frontend bash`
 
-##License
-
+## License
