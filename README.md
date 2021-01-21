@@ -5,17 +5,17 @@ An extremely simple crud application for managing user orders, that is completly
 ## Setup
 
 **Build a stack of applications to run a complete service**
-```console
+```bash
 docker-compose build
 ```
 
 **Migrate**
-```console
+```shell
 docker-compose run django python3 manage.py migrate
 ```
 
 **Make migrations**
-```console
+```sh
 docker-compose run django python3 manage.py makemigrations
 ```
 
