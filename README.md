@@ -47,7 +47,7 @@ docker-compose run --rm frontend bash
 
 ## API Documentation
 
-For swagger documentation, go to redoc/ or doc/ endpoint.
+For swagger documentation, go to `/redoc/` or `/doc/` endpoint.
 
 ## License
 Copyright 2020 Grzegorz Piechnik
