@@ -45,6 +45,10 @@ If you want to be on a shell for one of the Docker services, you can do somethin
 docker-compose run --rm frontend bash
 ```
 
+## API Documentation
+
+For swagger documentation, go to redoc/ or doc/ endpoint.
+
 ## License
 Copyright 2020 Grzegorz Piechnik
 
