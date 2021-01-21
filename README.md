@@ -28,7 +28,7 @@ There should now be two servers running:
 - [http://127.0.0.1:5000](http://127.0.0.1:5000) is the Django app
 - [http://127.0.0.1:8081](http://127.0.0.1:8081) is the React app
 
-## Using `docker-compose run` to issue one-off commands
+## Using 'docker-compose run' to issue one-off commands
 
 If you want to run a one-off command, like installing dependencies, you can use the:
 ```console
