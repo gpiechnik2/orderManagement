@@ -5,22 +5,22 @@ An extremely simple crud application for managing user orders, that is completly
 ## Setup
 
 **Build a stack of applications to run a complete service**
-```
+```console
 docker-compose build
 ```
 
 **Migrate**
-```
+```console
 docker-compose run django python3 manage.py migrate
 ```
 
 **Make migrations**
-```
+```console
 docker-compose run django python3 manage.py makemigrations
 ```
 
 **Run entire app**
-```
+```console
 docker-compose up
 ```
 
@@ -33,7 +33,9 @@ There should now be two servers running:
 If you want to run a one-off command, like installing dependencies, you can use the `docker-compose run <service_name> <cmd>`.
 
 For example, to install a Javascript dependency and save that information to `package.json` we could run:
-`docker-compose run --rm frontend npm install --save axios`
+```console
+docker-compose run --rm frontend npm install --save axios
+```
 
 If you want to be on a shell for one of the Docker services, you can do something like:
 `docker-compose run --rm frontend bash`
